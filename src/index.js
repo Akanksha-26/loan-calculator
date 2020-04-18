@@ -3,10 +3,13 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import {CalaculateLoanService} from './calculate-loan-service';
+
+const calaculateLoanService = new CalaculateLoanService();
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <App calaculateLoanService={calaculateLoanService}/>
   </React.StrictMode>,
   document.getElementById('root')
 );
