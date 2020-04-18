@@ -1,24 +1,25 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+        <form className="calculatorForm">
+          <div className="amountInput">
+            <label for="amount">Amount</label>
+            <input type="text" id="amount" name="amoun"></input>
+          </div>
+          <div className="durationInput">
+            <label for="duration">Duration</label>
+            <input type="text" id="duration" name="duration"></input>
+          </div>
+          <input className="submit" type="submit" value="OK"></input>
+        </form>
+        <div className="result">
+          <span>
+             Monthly Installment: 
+          </span>
+        </div>
     </div>
   );
 }
