@@ -8,17 +8,17 @@ class App extends React.Component {
    this.state = {
      amount: 0,
      time: 0,
-     monthlyInsallment: 0,
+     monthlyInsallment: "",
    }
  }
 
-  calculateMonthlyInstallment = async (amount, time) => {
-    const data = await calaculateLoanService(amount, time);
+
+  handleSubmit = async (event) => {
+    event.preventDefault();
+    const data = await calaculateLoanService(this.state.amount, this.state.time);
     this.setState({
       monthlyInsallment: data.monthlyInstallment
     })
-    console.log(data);
-   
  }
 
   render () {
@@ -26,12 +26,14 @@ class App extends React.Component {
     console.log(monthlyInsallment);
     return (
       <div className="App">
-          <form className="calculatorForm">
+          <form className="calculatorForm" onSubmit={this.handleSubmit}>
             <div className="amountInput">
               <label htmlFor="amount">Amount</label>
               <input 
                 type="number" 
-                id="amount" 
+                data-testid = "amount"
+                min="10000"
+                max="100000"
                 name="amount"
                 onChange = {(event) =>this.setState({amount: event.target.value})}
                 defaultValue = {amount}>
@@ -41,7 +43,9 @@ class App extends React.Component {
               <label htmlFor="duration">Duration</label>
               <input 
                 type="number" 
-                id="duration" 
+                data-testid="duration"
+                min="1"
+                max="5"
                 name="duration"
                 onChange = {(event) => this.setState({time: event.target.value})}
                 defaultValue={time}
@@ -50,9 +54,9 @@ class App extends React.Component {
             </div>
             <input 
               className="submit-btn" 
-              type="button" 
-              value="OK" 
-              onClick={() => this.calculateMonthlyInstallment(amount, time)}>
+              type="submit" 
+              data-testid="submit-btn"
+              value="OK">
             </input>
           </form>
           <div className="result">
