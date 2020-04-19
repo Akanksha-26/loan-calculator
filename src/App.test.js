@@ -2,17 +2,11 @@ import React from 'react';
 import { render, fireEvent, waitFor, waitForDomChange } from '@testing-library/react';
 import App from './App';
 
-
-class fakeService {
-  calculate(amount, time) {
-    return new Promise({"monthlyInstallment":"5390.61"})
-  }
-}
-
-const calaculateLoanService = new fakeService()
-
 test('renders learn react link', () => {
-  const { getByTestId  } = render(<App calaculateLoanService={calaculateLoanService}/>);
+  const spy = {
+    calculate: jest.fn().mockResolvedValue({"monthlyInstallment":"5390.61"})
+  }
+  const { getByTestId  } = render(<App calaculateLoanService={spy}/>);
 
   const durationInput = getByTestId("duration");
   expect(durationInput).toBeInTheDocument();
@@ -25,9 +19,9 @@ test('renders learn react link', () => {
 });
 
 test('should not submit the form if amount or duration validation fails', () => {
-  const spy = jest.fn().mockResolvedValue(
-    {"monthlyInstallment":"5390.61"}
-  );
+  const spy = {
+    calculate: jest.fn().mockResolvedValue({"monthlyInstallment":"5390.61"})
+  }
   const { getByTestId  } = render(<App calaculateLoanService={spy}/>);
 
   const durationInput = getByTestId("duration");
@@ -35,11 +29,11 @@ test('should not submit the form if amount or duration validation fails', () => 
 
   fireEvent.change(durationInput, { target: { value: '23' } });
   fireEvent.change(amountInput, { target: { value: '3' } });
-  expect(spy).not.toHaveBeenCalled();
+  expect(spy.calculate).not.toHaveBeenCalled();
 
   fireEvent.change(amountInput, { target: { value: '10000' } });
   fireEvent.change(durationInput, { target: { value: '50' } });
-  expect(spy).not.toHaveBeenCalled();
+  expect(spy.calculate).not.toHaveBeenCalled();
 });
 
 test('should show error when there was error calculating installment', async() =>{
