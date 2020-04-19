@@ -19,7 +19,8 @@ class App extends React.Component {
     try {
       const data = await this.props.calaculateLoanService.calculate(this.state.amount, this.state.time);
       this.setState({
-        monthlyInsallment: data.monthlyInstallment
+        monthlyInsallment: data.monthlyInstallment,
+        error: false
       })
     } catch(e) {
       this.setState({
@@ -30,7 +31,7 @@ class App extends React.Component {
  }
 
   render () {
-    const { error, amount, time, monthlyInsallment } = this.state;
+    const { amount, time, monthlyInsallment } = this.state;
     return (
       <div className="App">
           <form data-testid="calculatorForm" className="calculatorForm" onSubmit={this.handleSubmit}>
